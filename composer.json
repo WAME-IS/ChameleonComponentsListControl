@@ -1,0 +1,23 @@
+{
+    "name": "wame/ChameleonComponentsListControl",
+    "version": "0.0.1",
+    "description": "implementation of ListControl for ChameleonComponents",
+    "homepage": "http://wame.sk/cms-wame-admin",
+    "authors": [
+        {
+            "name": "Wame",
+            "homepage": "http://wame.sk"
+        }
+    ],
+    "require": {
+        "wame/ChameleonComponents": "*",
+        "wame/ListControl": "*",
+        "wame/Core": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "."
+        ]
+    },
+    "type": "wame-module"
+}
