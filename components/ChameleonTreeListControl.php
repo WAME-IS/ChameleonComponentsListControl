@@ -2,6 +2,7 @@
 
 namespace Wame\ChameleonComponentsListControl\Components;
 
+use Doctrine\Common\Collections\Criteria;
 use Nette\ComponentModel\IContainer;
 use Nette\DI\Container;
 use Wame\ChameleonComponents\Definition\ControlDataDefinition;
@@ -15,12 +16,15 @@ use Wame\Utils\Strings;
 abstract class ChameleonTreeListControl extends ProvidedTreeListControl implements DataLoaderControl
 {
 
+    /** @var int */
+    protected $depth;
+
     public function __construct(Container $container, IContainer $parent = NULL, $name = NULL)
     {
         parent::__construct($container, $parent, $name);
 
         $this->setProvider(new ChameleonComponentsListProvider($this));
-        
+
         $this->getStatus()->get(Strings::plural($this->getListType()), function() {
             $this->getListComponents(); //TODO globalne riesenie pre vsetky listy?
         });
@@ -33,7 +37,11 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      */
     public function getDataDefinition()
     {
-        $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true)));
+        $criteria = null;
+        if ($this->depth) {
+            $criteria = Criteria::create()->where(Criteria::expr()->lte('depth', $this->depth));
+        }
+        $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true), $criteria));
         $controlDataDefinition->setTriggersProcessing(true);
         return $controlDataDefinition;
     }
@@ -42,4 +50,14 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      * @return string Name of entities in list
      */
     abstract public function getListType();
+
+    function getDepth()
+    {
+        return $this->depth;
+    }
+
+    function setDepth($depth)
+    {
+        $this->depth = $depth;
+    }
 }
