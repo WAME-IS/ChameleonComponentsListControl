@@ -18,7 +18,7 @@ abstract class ChameleonListControl extends ProvidedListControl implements DataL
     public function __construct(Container $container, IContainer $parent = NULL, $name = NULL)
     {
         parent::__construct($container, $parent, $name);
-
+        
         $this->setProvider(new ChameleonComponentsListProvider($this));
         
         $this->getStatus()->get(Strings::plural($this->getListType()), function() {
