@@ -16,8 +16,8 @@ use Wame\Utils\Strings;
 abstract class ChameleonTreeListControl extends ProvidedTreeListControl implements DataLoaderControl
 {
 
-    /** @var int */
-    protected $depth;
+    /** @var Criteria */
+    private $criteria;
 
     public function __construct(Container $container, IContainer $parent = NULL, $name = NULL)
     {
@@ -37,10 +37,12 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      */
     public function getDataDefinition()
     {
-        $criteria = null;
-        if ($this->depth) {
-            $criteria = Criteria::create()->where(Criteria::expr()->lte('depth', $this->depth));
+        $depth = $this->getComponentParameter('depth');
+        if($depth) {
+            $this->setDepth($depth);
         }
+        
+        $criteria = $this->getCriteria();
         $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true), $criteria));
         $controlDataDefinition->setTriggersProcessing(true);
         return $controlDataDefinition;
@@ -50,14 +52,37 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      * @return string Name of entities in list
      */
     abstract public function getListType();
-
-    function getDepth()
-    {
-        return $this->depth;
-    }
-
+    
+    /**
+     * @param int $depth
+     */
     function setDepth($depth)
     {
-        $this->depth = $depth;
+        $this->addCriteria(Criteria::create()->where(Criteria::expr()->lte('depth', $depth)));
+    }
+    
+    
+    /**
+     * @return Criteria
+     */
+    function getCriteria()
+    {
+        return $this->criteria;
+    }
+
+    /**
+     * @param Criteria $criteria
+     */
+    function setCriteria(Criteria $criteria)
+    {
+        $this->criteria = $criteria;
+    }
+
+    /**
+     * @param Criteria $criteria
+     */
+    public function addCriteria(Criteria $criteria)
+    {
+        $this->criteria = Combiner::combineCriteria($this->criteria, $criteria);
     }
 }
