@@ -5,12 +5,14 @@ namespace Wame\ChameleonComponentsListControl\Components;
 use Doctrine\Common\Collections\Criteria;
 use Nette\ComponentModel\IContainer;
 use Nette\DI\Container;
+use Wame\ChameleonComponents\Combiner;
 use Wame\ChameleonComponents\Definition\ControlDataDefinition;
 use Wame\ChameleonComponents\Definition\DataDefinition;
 use Wame\ChameleonComponents\Definition\DataDefinitionTarget;
 use Wame\ChameleonComponents\IO\DataLoaderControl;
 use Wame\ChameleonComponentsListControl\Provider\ChameleonComponentsListProvider;
 use Wame\ListControl\Components\ProvidedTreeListControl;
+use Wame\Utils\Doctrine;
 use Wame\Utils\Strings;
 
 abstract class ChameleonTreeListControl extends ProvidedTreeListControl implements DataLoaderControl
@@ -37,11 +39,16 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      */
     public function getDataDefinition()
     {
+        $listCriteria = $this->getComponentParameter('listCriteria');
+        if ($listCriteria) {
+            $this->addCriteria(Doctrine::readCriteria($listCriteria));
+        }
+
         $depth = $this->getComponentParameter('depth');
-        if($depth) {
+        if ($depth) {
             $this->setDepth($depth);
         }
-        
+
         $criteria = $this->getCriteria();
         $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true), $criteria));
         $controlDataDefinition->setTriggersProcessing(true);
@@ -52,7 +59,7 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      * @return string Name of entities in list
      */
     abstract public function getListType();
-    
+
     /**
      * @param int $depth
      */
@@ -60,8 +67,7 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
     {
         $this->addCriteria(Criteria::create()->where(Criteria::expr()->lte('depth', $depth)));
     }
-    
-    
+
     /**
      * @return Criteria
      */
@@ -83,6 +89,6 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      */
     public function addCriteria(Criteria $criteria)
     {
-        $this->criteria = Combiner::combineCriteria($this->criteria, $criteria);
+        $this->criteria = Combiner::combineCriteria($this->criteria ? : Criteria::create(), $criteria);
     }
 }
