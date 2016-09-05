@@ -39,7 +39,7 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      */
     public function getDataDefinition()
     {
-        $listCriteria = $this->getComponentParameter('listCriteria');
+        $listCriteria = $this->getComponentParameter(ChameleonListControl::PARAM_LIST_CRITERIA);
         if ($listCriteria) {
             $this->addCriteria(Doctrine::readCriteria($listCriteria));
         }

@@ -17,7 +17,8 @@ use Wame\Utils\Strings;
 
 abstract class ChameleonListControl extends ProvidedListControl implements DataLoaderControl
 {
-
+    const PARAM_LIST_CRITERIA = 'listCriteria';
+    
     /** @var Criteria */
     private $criteria;
 
@@ -39,7 +40,7 @@ abstract class ChameleonListControl extends ProvidedListControl implements DataL
      */
     public function getDataDefinition()
     {
-        $listCriteria = $this->getComponentParameter('listCriteria');
+        $listCriteria = $this->getComponentParameter(self::PARAM_LIST_CRITERIA);
         if ($listCriteria) {
             $this->addCriteria(Doctrine::readCriteria($listCriteria));
         }
