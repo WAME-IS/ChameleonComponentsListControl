@@ -39,6 +39,14 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
      */
     public function getDataDefinition()
     {
+        $criteria = $this->loadParametersCriteria();
+        $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true), $criteria));
+        $controlDataDefinition->setTriggersProcessing(true);
+        return $controlDataDefinition;
+    }
+    
+    protected function loadParametersCriteria()
+    {
         $listCriteria = $this->getComponentParameter(ChameleonListControl::PARAM_LIST_CRITERIA);
         if ($listCriteria) {
             $this->addCriteria(Doctrine::readCriteria($listCriteria));
@@ -49,10 +57,7 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
             $this->setDepth($depth);
         }
 
-        $criteria = $this->getCriteria();
-        $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true), $criteria));
-        $controlDataDefinition->setTriggersProcessing(true);
-        return $controlDataDefinition;
+        return $this->getCriteria();
     }
 
     /**
