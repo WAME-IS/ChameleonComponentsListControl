@@ -17,6 +17,7 @@ use Wame\Utils\Strings;
 
 abstract class ChameleonTreeListControl extends ProvidedTreeListControl implements DataLoaderControl
 {
+    const PARAM_DEPTH = 'depth';
 
     /** @var Criteria */
     private $criteria;
@@ -52,7 +53,7 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
             $this->addCriteria(Doctrine::readCriteria($listCriteria));
         }
 
-        $depth = $this->getComponentParameter('depth');
+        $depth = $this->getComponentParameter(self::PARAM_DEPTH);
         if ($depth) {
             $this->setDepth($depth);
         }
