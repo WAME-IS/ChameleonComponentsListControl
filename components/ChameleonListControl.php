@@ -10,9 +10,9 @@ use Wame\ChameleonComponents\Definition\ControlDataDefinition;
 use Wame\ChameleonComponents\Definition\DataDefinition;
 use Wame\ChameleonComponents\Definition\DataDefinitionTarget;
 use Wame\ChameleonComponents\IO\DataLoaderControl;
+use Wame\ChameleonComponentsDoctrine\Utils\Utils;
 use Wame\ChameleonComponentsListControl\Provider\ChameleonComponentsListProvider;
 use Wame\ListControl\Components\ProvidedListControl;
-use Wame\Utils\Doctrine;
 use Wame\Utils\Strings;
 
 abstract class ChameleonListControl extends ProvidedListControl implements DataLoaderControl
@@ -42,7 +42,7 @@ abstract class ChameleonListControl extends ProvidedListControl implements DataL
     {
         $listCriteria = $this->getComponentParameter(self::PARAM_LIST_CRITERIA);
         if ($listCriteria) {
-            $this->addCriteria(Doctrine::readCriteria($listCriteria));
+            $this->addCriteria(Utils::readCriteria($listCriteria));
         }
         
         $controlDataDefinition = new ControlDataDefinition($this, new DataDefinition(new DataDefinitionTarget($this->getListType(), true), $this->criteria));

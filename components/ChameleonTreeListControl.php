@@ -10,13 +10,14 @@ use Wame\ChameleonComponents\Definition\ControlDataDefinition;
 use Wame\ChameleonComponents\Definition\DataDefinition;
 use Wame\ChameleonComponents\Definition\DataDefinitionTarget;
 use Wame\ChameleonComponents\IO\DataLoaderControl;
+use Wame\ChameleonComponentsDoctrine\Utils\Utils;
 use Wame\ChameleonComponentsListControl\Provider\ChameleonComponentsListProvider;
 use Wame\ListControl\Components\ProvidedTreeListControl;
-use Wame\Utils\Doctrine;
 use Wame\Utils\Strings;
 
 abstract class ChameleonTreeListControl extends ProvidedTreeListControl implements DataLoaderControl
 {
+
     const PARAM_DEPTH = 'depth';
 
     /** @var Criteria */
@@ -45,12 +46,12 @@ abstract class ChameleonTreeListControl extends ProvidedTreeListControl implemen
         $controlDataDefinition->setTriggersProcessing(true);
         return $controlDataDefinition;
     }
-    
+
     protected function loadParametersCriteria()
     {
         $listCriteria = $this->getComponentParameter(ChameleonListControl::PARAM_LIST_CRITERIA);
         if ($listCriteria) {
-            $this->addCriteria(Doctrine::readCriteria($listCriteria));
+            $this->addCriteria(Utils::readCriteria($listCriteria));
         }
 
         $depth = $this->getComponentParameter(self::PARAM_DEPTH);
