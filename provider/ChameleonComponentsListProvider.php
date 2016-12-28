@@ -3,7 +3,7 @@
 namespace Wame\ChameleonComponentsListControl\Provider;
 
 use Nette\Utils\AssertionException;
-use Wame\ArticleModule\Components\ChameleonListControl;
+use Wame\ChameleonComponentsListControl\Components\ChameleonListControl;
 use Wame\ListControl\Components\IListProvider;
 use Wame\Utils\Strings;
 
@@ -27,7 +27,8 @@ class ChameleonComponentsListProvider implements IListProvider
         $all = $this->control->getStatus()->get($statusName);
         
         if ($all === null) {
-            throw new AssertionException("Chameleon components didnt load required value $statusName to status.");
+//            throw new AssertionException("Chameleon components didnt load required value $statusName to status.");
+//            return [];
         }
 
         return $all;
