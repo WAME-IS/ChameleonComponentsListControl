@@ -28,7 +28,7 @@ class ChameleonComponentsListProvider implements IListProvider
         
         if ($all === null) {
 //            throw new AssertionException("Chameleon components didnt load required value $statusName to status.");
-//            return [];
+            return [];
         }
 
         return $all;
