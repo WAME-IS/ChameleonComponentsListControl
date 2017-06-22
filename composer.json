@@ -16,7 +16,10 @@
     "config": { "secure-http": false },
     "require": {
         "wame/ChameleonComponents": ">=0.0.1",
-        "wame/ListControl": ">=0.0.1",
+        "wame/ListControl": ">=0.0.1"
+
+    },
+    "softRequire": {
         "wame/Core": ">=0.0.1"
     },
     "autoload": {
