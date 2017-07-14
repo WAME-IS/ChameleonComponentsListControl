@@ -16,6 +16,7 @@
     "config": { "secure-http": false },
     "require": {
         "wame/ChameleonComponents": ">=0.0.1",
+        "wame/ChameleonComponentsDoctrine": ">=0.0.1",
         "wame/ListControl": ">=0.0.1"
 
     },
