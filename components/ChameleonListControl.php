@@ -106,7 +106,7 @@ abstract class ChameleonListControl extends ProvidedListControl implements DataL
      */
     function getCriteria()
     {
-        return $this->criteria;
+        return $this->criteria ? $this->criteria : Criteria::create();
     }
 
 
