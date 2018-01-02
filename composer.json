@@ -2,7 +2,7 @@
     "name": "wame/ChameleonComponentsListControl",
     "version": "0.0.1",
     "description": "implementation of ListControl for ChameleonComponents",
-    "homepage": "http://wame.sk/cms-wame-admin",
+    "homepage": "https://wameis.org",
     "minimum-stability": "dev",
     "authors": [
         {
